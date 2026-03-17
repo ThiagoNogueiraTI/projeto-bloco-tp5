@@ -179,6 +179,18 @@ public class PbApplication {
             	   System.out.println(j + " - Titulo: " + i.getTitulo() + " - Conteúdo: " + i.getConteudo());
             	   j++;
                }
+               int opcaoInteragir = -1;
+               do {
+                   System.out.print("Escolha o número da notícia que deseja interagir: ");
+                   try {
+                	   opcaoInteragir = Integer.parseInt(in.nextLine());
+                   } catch (NumberFormatException e) {
+                       System.out.println("Erro!");
+                   }
+			} while (opcaoInteragir > listaNoticias.size() || opcaoInteragir < 0);
+               System.out.println("Escolha o número da opção que deseja efetuar: ");
+               System.out.println("1 - Curtir");
+               System.out.println("2 - Comentar");
                break;
         }
   }while (opcaoAvancar != 0);
