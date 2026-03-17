@@ -18,7 +18,7 @@ public class PbApplication {
         int opcaoConta = -1;
         do {
             System.out.println("Digite um número inteiro:");
-            System.out.println("1 - Entrar");
+            System.out.println("1 - Entrar - Hello world");
             System.out.println("2 - Criar conta");
             System.out.println(" ");
             System.out.println("0 - Sair");
