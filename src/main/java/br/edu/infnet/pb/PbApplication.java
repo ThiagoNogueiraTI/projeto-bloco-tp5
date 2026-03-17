@@ -1,9 +1,11 @@
 package br.edu.infnet.pb;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Scanner;
 
 @SpringBootApplication
 public class PbApplication {
@@ -12,6 +14,7 @@ public class PbApplication {
         SpringApplication.run(PbApplication.class, args);
         Scanner in = new Scanner(System.in);
         Usuario usuario = new Usuario();
+        List<Noticia> listaNoticias = new ArrayList<Noticia>();
         int opcaoConta = -1;
         do {
             System.out.println("Digite um número inteiro:");
@@ -88,7 +91,7 @@ public class PbApplication {
             } catch (NumberFormatException e) {
                 System.out.println("Erro!");
             }
-        } while (opcaoAvancar < 0 && opcaoAvancar > 4);
+        //} while (opcaoAvancar < 0 && opcaoAvancar > 4);
         switch (opcaoAvancar) {
             case 1:
                 int opcaoPerfil = -1;
@@ -166,13 +169,20 @@ public class PbApplication {
             System.out.print("Digite o conteúdo: ");
             String inputConteudo = in.nextLine();
             noticia.setConteudo(inputConteudo);
+            listaNoticias.add(noticia);
             System.out.print("Notícia cadastrada com sucesso!");
             break;
             case 3:
                System.out.println("3 -- Listar Notícia(Interagir com Like e Comentário)");
+               int j = 1;
+               for(Noticia i : listaNoticias) {
+            	   System.out.println(j + " - Titulo: " + i.getTitulo() + " - Conteúdo: " + i.getConteudo());
+            	  //System.out.println("Titulo: " + i.getTitulo()); 
+            	  //System.out.println("Conteúdo: " + i.getConteudo());
+            	   j++;
+               }
                break;
         }
-    }
-}
-
+  }while (opcaoAvancar != 0);
+}}
 
