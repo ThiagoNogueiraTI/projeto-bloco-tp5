@@ -177,8 +177,6 @@ public class PbApplication {
                int j = 1;
                for(Noticia i : listaNoticias) {
             	   System.out.println(j + " - Titulo: " + i.getTitulo() + " - Conteúdo: " + i.getConteudo());
-            	  //System.out.println("Titulo: " + i.getTitulo()); 
-            	  //System.out.println("Conteúdo: " + i.getConteudo());
             	   j++;
                }
                break;
