@@ -194,7 +194,7 @@ public class PbApplication {
             		   System.out.println("Comentários: ");
                 	   System.out.println(" ");
 					 for (int k = 0; k < i.getComentarios().size(); k++) {
-            		   System.out.println(usuario.getNome() != null ? usuario.getNome() : "Visitante" + " - " + i.getComentarios().get(k));
+            		   System.out.println((usuario.getNome() != null ? usuario.getNome() : "Visitante") + " - " + i.getComentarios().get(k));
 					 }
             	   }
             	   System.out.println(" ");
