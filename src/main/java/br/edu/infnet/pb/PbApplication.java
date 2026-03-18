@@ -1,7 +1,10 @@
 package br.edu.infnet.pb;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
@@ -18,7 +21,7 @@ public class PbApplication {
         int opcaoConta = -1;
         do {
             System.out.println("Digite um número inteiro:");
-            System.out.println("1 - Entrar - Hello world");
+            System.out.println("1 - Entrar");
             System.out.println("2 - Criar conta");
             System.out.println(" ");
             System.out.println("0 - Sair");
@@ -170,13 +173,33 @@ public class PbApplication {
             String inputConteudo = in.nextLine();
             noticia.setConteudo(inputConteudo);
             listaNoticias.add(noticia);
+            //List<String> vazio = new ArrayList<>();
+            noticia.setComentarios(new ArrayList<>());
             System.out.print("Notícia cadastrada com sucesso!");
             break;
             case 3:
                System.out.println("3 -- Listar Notícia(Interagir com Like e Comentário)");
                int j = 1;
+        	   System.out.println(" ");
+        	   System.out.println("---------------------------------------");
+        	   System.out.println(" ");
                for(Noticia i : listaNoticias) {
             	   System.out.println(j + " - Titulo: " + i.getTitulo() + " - Conteúdo: " + i.getConteudo());
+            	   //System.out.println("---------------------------------------");
+            	   System.out.println("Curtidas: " + i.getCurtidas());
+            	   //System.out.println("---------------------------------------");
+            	   if(i.getComentarios().size() == 0) {
+            		   System.out.println("Sem comentários");
+            	   }else {
+            		   System.out.println("Comentários: ");
+                	   System.out.println(" ");
+					 for (int k = 0; k < i.getComentarios().size(); k++) {
+            		   System.out.println(usuario.getNome() != null ? usuario.getNome() : "Visitante" + " - " + i.getComentarios().get(k));
+					 }
+            	   }
+            	   System.out.println(" ");
+            	   System.out.println("---------------------------------------");
+            	   System.out.println(" ");
             	   j++;
                }
                int opcaoInteragir = -1;
@@ -188,9 +211,33 @@ public class PbApplication {
                        System.out.println("Erro!");
                    }
 			} while (opcaoInteragir > listaNoticias.size() || opcaoInteragir < 0);
+               int opcaoCurtirComentar = -1;
                System.out.println("Escolha o número da opção que deseja efetuar: ");
                System.out.println("1 - Curtir");
                System.out.println("2 - Comentar");
+               try {
+            	   opcaoCurtirComentar = Integer.parseInt(in.nextLine());
+               } catch (NumberFormatException e) {
+                   System.out.println("Erro!");
+               }               
+               switch (opcaoCurtirComentar) {
+	               case 1:
+	            	Noticia objetoNoticia = listaNoticias.get(opcaoInteragir -1);
+					objetoNoticia.setCurtidas(objetoNoticia.getCurtidas()+1);
+					System.out.println("Quantidade de curtidas: " + objetoNoticia.getCurtidas());
+					listaNoticias.set(opcaoInteragir-1, objetoNoticia);
+					break;
+					case 2:
+		            Noticia objetoComentar = listaNoticias.get(opcaoInteragir -1);
+		            String comentario;
+					System.out.print("Escreva seu comentário: ");
+					comentario = in.nextLine();
+					List<String> listaComentarios = objetoComentar.getComentarios();
+					listaComentarios.add(comentario);
+					objetoComentar.setComentarios(listaComentarios);
+					listaNoticias.set(opcaoInteragir-1, objetoComentar);					
+					break;
+			}
                break;
         }
   }while (opcaoAvancar != 0);
