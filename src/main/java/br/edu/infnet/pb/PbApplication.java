@@ -14,6 +14,9 @@ public class PbApplication {
         SpringApplication.run(PbApplication.class, args);
         Scanner in = new Scanner(System.in);
         Usuario usuario = new Usuario();
+        if(usuario.getNoticiaSalva() == null || usuario.getNoticiaSalva().size() == 0) {
+            usuario.setNoticiaSalva(new ArrayList<Noticia>());
+        }
         EditorChefe editorChefe2 = new EditorChefe();
         Administrador administrador2 = new Administrador();
         Jornalista jornalista2 = new Jornalista();
@@ -38,6 +41,21 @@ public class PbApplication {
         administrador2.setAcessosParaLiberar(listaAcessosParaLiberarTeste);
         //fim do teste
         
+        //simulando noticia usuario
+        List<Noticia> listaNoticiaUsuarioTeste = editorChefe2.getNoticiasPublicadas() != null ? editorChefe2.getNoticiasPublicadas() : new ArrayList<Noticia>();
+        Noticia noticiaUsuarioTeste = new Noticia();
+        Noticia noticiaUsuarioTeste2 = new Noticia();
+        noticiaUsuarioTeste.setTitulo("Testando a notícia");
+        noticiaUsuarioTeste.setConteudo("Descrição da primeira notícia");
+        noticiaUsuarioTeste.setComentarios(new ArrayList<>());
+        listaNoticiaUsuarioTeste.add(noticiaUsuarioTeste);
+        noticiaUsuarioTeste2.setTitulo("Segunda Notícia");
+        noticiaUsuarioTeste2.setConteudo("Descrição da segunda notícia");
+        noticiaUsuarioTeste2.setComentarios(new ArrayList<>());
+        listaNoticiaUsuarioTeste.add(noticiaUsuarioTeste2);
+        editorChefe2.setNoticiasPublicadas(listaNoticiaUsuarioTeste);
+
+        //fim do teste
         
         List<Noticia> listaNoticias = new ArrayList<Noticia>();
         int opcaoConta = -1;
@@ -212,13 +230,14 @@ public class PbApplication {
                     System.out.println("1 - Digitar nome");
                     System.out.println("2 - Escolher plano");
                     System.out.println("3 - Tipo de conta");
+                    System.out.println("4 - Notícias salvas");
                     System.out.print("Digite o número: ");
                     try {
                         opcaoPerfil = Integer.parseInt(in.nextLine());
                     } catch (NumberFormatException e) {
                         System.out.println("Erro!");
                     }
-                } while (opcaoPerfil != 1 && opcaoPerfil != 2 && opcaoPerfil != 3);
+                } while (opcaoPerfil != 1 && opcaoPerfil != 2 && opcaoPerfil != 3 && opcaoPerfil != 4);
                 switch (opcaoPerfil){
                     case 1:
                         System.out.print("Digite seu nome: ");
@@ -300,6 +319,17 @@ public class PbApplication {
                         }
 
                         break;
+                    case 4:
+                   	   System.out.println("---------------------------------------");
+                    	List<Noticia> listaNoticiaSalva = usuario.getNoticiaSalva(); 
+                    	for (int i = 0; i < listaNoticiaSalva.size(); i++) {
+                    		System.out.println(" ");
+                    		System.out.println(i+1 + " - Titulo: " + listaNoticiaSalva.get(i).getTitulo() + " - Conteúdo: " + listaNoticiaSalva.get(i).getConteudo());
+                     	    System.out.println("Curtidas: " + listaNoticiaSalva.get(i).getCurtidas());
+                     	    System.out.println(" ");
+                     	    System.out.println("---------------------------------------");
+						}
+                    	break;
                 }
                 break;
             case 2:
@@ -347,6 +377,7 @@ public class PbApplication {
                System.out.println("Escolha o número da opção que deseja efetuar: ");
                System.out.println("1 - Curtir");
                System.out.println("2 - Comentar");
+               System.out.println("3 - Salvar");
                try {
             	   opcaoCurtirComentar = Integer.parseInt(in.nextLine());
                } catch (NumberFormatException e) {
@@ -367,7 +398,12 @@ public class PbApplication {
 					List<String> listaComentarios = objetoComentar.getComentarios();
 					listaComentarios.add(comentario);
 					objetoComentar.setComentarios(listaComentarios);
-                        listaNoticiaTeste.set(opcaoInteragir-1, objetoComentar);
+                    listaNoticiaTeste.set(opcaoInteragir-1, objetoComentar);
+					break;
+					case 3:
+					List<Noticia> listNoticiaSalvaUsuario = usuario.getNoticiaSalva();
+					listNoticiaSalvaUsuario.add(listaNoticiaTeste.get(opcaoInteragir -1));
+					usuario.setNoticiaSalva(listNoticiaSalvaUsuario);
 					break;
 			}
                break; // ate aqui
@@ -452,8 +488,7 @@ public class PbApplication {
                     	i--;
                     }
                 }
-                 break;
-                
+                 break; 
         }
   }while (opcaoAvancar != 0);
 }}

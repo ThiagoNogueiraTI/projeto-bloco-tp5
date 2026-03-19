@@ -1,11 +1,6 @@
 package br.edu.infnet.pb;
 
-import javax.swing.text.html.parser.Parser;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario {
 
@@ -13,13 +8,37 @@ public class Usuario {
     private String id;
     private String email;
     private String senha;
-    private String[] noticiasSalvas;
-    private String[] noticiasCurtidas;
-    private String[] comentarios;
-
+	private List<Noticia> noticiasCurtidas;
+    private List<Noticia> comentarios;
+	private List<Noticia> noticiaSalva;
     public enum Plano {Gratis, Pago};
     private Plano plano;
 
+    public List<Noticia> getNoticiasCurtidas() {
+		return noticiasCurtidas;
+	}
+
+	public void setNoticiasCurtidas(List<Noticia> noticiasCurtidas) {
+		this.noticiasCurtidas = noticiasCurtidas;
+	}
+
+	public List<Noticia> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Noticia> comentarios) {
+		this.comentarios = comentarios;
+	}
+    
+    public List<Noticia> getNoticiaSalva() {
+		return noticiaSalva;
+	}
+
+	public void setNoticiaSalva(List<Noticia> noticiaSalva) {
+		this.noticiaSalva = noticiaSalva;
+	}
+
+    
     public String getNome() {
         return nome;
     }
@@ -47,8 +66,8 @@ public class Usuario {
     public void gerarId(){
         int idGerado = (int) (Math.ceil(Math.random() * 1000));
         System.out.println(idGerado);
-        //id = String.valueOf(idGerado);
-        id = "411";
+        id = String.valueOf(idGerado);
+        //id = "411";
     }
     
     public void setPlano(Plano plano) {
