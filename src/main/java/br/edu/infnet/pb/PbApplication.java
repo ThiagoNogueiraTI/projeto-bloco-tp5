@@ -1,11 +1,6 @@
 package br.edu.infnet.pb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Scanner;
+import java.util.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +12,18 @@ public class PbApplication {
         SpringApplication.run(PbApplication.class, args);
         Scanner in = new Scanner(System.in);
         Usuario usuario = new Usuario();
+        EditorChefe editorChefe2 = new EditorChefe();
+
+        // simulando notícia para revisar
+        List<Noticia> listaNoticiasParaRevisarTeste = new ArrayList<Noticia>();
+        Noticia noticiaParaRevisarTeste = new Noticia();
+        noticiaParaRevisarTeste.setTitulo("Cruzeiro");
+        noticiaParaRevisarTeste.setConteudo("Cruzeiro é o maior de minas!");
+        noticiaParaRevisarTeste.setComentarios(new ArrayList<>());
+        listaNoticiasParaRevisarTeste.add(noticiaParaRevisarTeste);
+        editorChefe2.setNoticiasParaRevisar(listaNoticiasParaRevisarTeste);
+        // fim do teste
+
         List<Noticia> listaNoticias = new ArrayList<Noticia>();
         int opcaoConta = -1;
         do {
@@ -82,18 +89,59 @@ public class PbApplication {
                 return;
         }
         int opcaoAvancar = -1;
+
+        Jornalista jornalistaPermitir = new Jornalista();
+        EditorChefe editorChefePermitir = new EditorChefe();
+        String[] listaIdJornalista = jornalistaPermitir.getIdJornalistas();
+        String[] listaIdEditorChefe = editorChefePermitir.getIdEditorChefe();
+
+        boolean permitirCriarNoticia = false;
+        boolean permitirRevisar = false;
         do {
             System.out.println(" ");
             System.out.println("Digite um número inteiro:");
             System.out.println("1 - Perfil");
-            System.out.println("2 - Criar Notícia");
-            System.out.println("3 - Listar Notícia(Interagir com Like e Comentário)");
+
+            for (String s : listaIdJornalista) {
+                if (s == usuario.getId()) {
+                    permitirCriarNoticia = true;
+                    break;
+                }
+            }
+
+            for (String s : listaIdEditorChefe) {
+                if (s == usuario.getId()) {
+                    permitirRevisar = true;
+                    break;
+                }
+            }
+
+            System.out.println("2 - Listar Notícia(Interagir com Like e Comentário)");
+
+            if (permitirCriarNoticia){
+                System.out.println("3 - Criar Notícia");
+            }
+
+            if (permitirRevisar){
+                System.out.println("4 - Revisar notícias");
+            }
+
+
             System.out.print("Digite o número: ");
             try {
                 opcaoAvancar = Integer.parseInt(in.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Erro!");
             }
+
+            if (opcaoAvancar == 3 && !permitirCriarNoticia ){
+                opcaoAvancar = 10;
+            }
+
+            if (opcaoAvancar == 4 && !permitirRevisar ){
+                opcaoAvancar = 10;
+            }
+
         //} while (opcaoAvancar < 0 && opcaoAvancar > 4);
         switch (opcaoAvancar) {
             case 1:
@@ -103,13 +151,14 @@ public class PbApplication {
                     System.out.println("Digite um número inteiro:");
                     System.out.println("1 - Digitar nome");
                     System.out.println("2 - Escolher plano");
+                    System.out.println("3 - Tipo de conta");
                     System.out.print("Digite o número: ");
                     try {
                         opcaoPerfil = Integer.parseInt(in.nextLine());
                     } catch (NumberFormatException e) {
                         System.out.println("Erro!");
                     }
-                } while (opcaoPerfil != 1 && opcaoPerfil != 2);
+                } while (opcaoPerfil != 1 && opcaoPerfil != 2 && opcaoPerfil != 3);
                 switch (opcaoPerfil){
                     case 1:
                         System.out.print("Digite seu nome: ");
@@ -161,29 +210,52 @@ public class PbApplication {
                                 break;
                         }
                         break;
+                    case 3:
+
+                        int opcaoTipoConta = -1;
+                        do {
+                            System.out.println(" ");
+                            System.out.println("Escolha o tipo de conta:");
+                            System.out.println("1 - Administrador");
+                            System.out.println("2 - Jornalista");
+                            System.out.println("3 - Editor chefe");
+                            System.out.println("4 - Voltar/manter como usuário");
+                            System.out.print("Digite o número: ");
+                            try {
+                                opcaoTipoConta = Integer.parseInt(in.nextLine());
+                            } catch (NumberFormatException e) {
+                                System.out.println("Erro!");
+                            }
+                        } while (opcaoTipoConta != 1 && opcaoTipoConta != 2 && opcaoTipoConta != 3 && opcaoTipoConta != 4);
+
+                        if (opcaoTipoConta == 1){
+                            System.out.println("Solicitação para tornar Administrador solicitada...");
+                        } else if(opcaoTipoConta == 2){
+                            System.out.println("Solicitação para tornar Jornalista solicitada...");
+                        } else if(opcaoTipoConta == 3){
+                            System.out.println("Solicitação para tornar Editor chefe solicitada...");
+                        }else {
+                            System.out.println("Voltando...");
+                            break;
+                        }
+
+                        break;
                 }
                 break;
             case 2:
-            Noticia noticia = new Noticia();
-            System.out.println("2 -- Criar Notícia");
-            System.out.print("Digite o título: ");
-            String inputTitulo = in.nextLine();
-            noticia.setTitulo(inputTitulo);
-            System.out.print("Digite o conteúdo: ");
-            String inputConteudo = in.nextLine();
-            noticia.setConteudo(inputConteudo);
-            listaNoticias.add(noticia);
-            //List<String> vazio = new ArrayList<>();
-            noticia.setComentarios(new ArrayList<>());
-            System.out.print("Notícia cadastrada com sucesso!");
-            break;
-            case 3:
-               System.out.println("3 -- Listar Notícia(Interagir com Like e Comentário)");
+               System.out.println("2 -- Listar Notícia(Interagir com Like e Comentário)");
                int j = 1;
         	   System.out.println(" ");
         	   System.out.println("---------------------------------------");
         	   System.out.println(" ");
-               for(Noticia i : listaNoticias) {
+
+               List<Noticia> listaNoticiaTeste = editorChefe2.getNoticiasPublicadas();
+
+               if (listaNoticiaTeste == null) {
+                   System.out.println("Sem notícias!");
+                   break;
+               }
+               for(Noticia i : listaNoticiaTeste) {
             	   System.out.println(j + " - Titulo: " + i.getTitulo() + " - Conteúdo: " + i.getConteudo());
             	   //System.out.println("---------------------------------------");
             	   System.out.println("Curtidas: " + i.getCurtidas());
@@ -210,7 +282,7 @@ public class PbApplication {
                    } catch (NumberFormatException e) {
                        System.out.println("Erro!");
                    }
-			} while (opcaoInteragir > listaNoticias.size() || opcaoInteragir < 0);
+			} while (opcaoInteragir > listaNoticiaTeste.size() || opcaoInteragir < 0);
                int opcaoCurtirComentar = -1;
                System.out.println("Escolha o número da opção que deseja efetuar: ");
                System.out.println("1 - Curtir");
@@ -222,23 +294,73 @@ public class PbApplication {
                }               
                switch (opcaoCurtirComentar) {
 	               case 1:
-	            	Noticia objetoNoticia = listaNoticias.get(opcaoInteragir -1);
+	            	Noticia objetoNoticia = listaNoticiaTeste.get(opcaoInteragir -1);
 					objetoNoticia.setCurtidas(objetoNoticia.getCurtidas()+1);
 					System.out.println("Quantidade de curtidas: " + objetoNoticia.getCurtidas());
-					listaNoticias.set(opcaoInteragir-1, objetoNoticia);
+                       listaNoticiaTeste.set(opcaoInteragir-1, objetoNoticia);
 					break;
 					case 2:
-		            Noticia objetoComentar = listaNoticias.get(opcaoInteragir -1);
+		            Noticia objetoComentar = listaNoticiaTeste.get(opcaoInteragir -1);
 		            String comentario;
 					System.out.print("Escreva seu comentário: ");
 					comentario = in.nextLine();
 					List<String> listaComentarios = objetoComentar.getComentarios();
 					listaComentarios.add(comentario);
 					objetoComentar.setComentarios(listaComentarios);
-					listaNoticias.set(opcaoInteragir-1, objetoComentar);					
+                        listaNoticiaTeste.set(opcaoInteragir-1, objetoComentar);
 					break;
 			}
-               break;
+               break; // ate aqui
+            case 3:
+                //EditorChefe editorChefe = new EditorChefe();
+
+                Noticia noticia = new Noticia();
+                System.out.println("3 -- Criar Notícia");
+                System.out.print("Digite o título: ");
+                String inputTitulo = in.nextLine();
+                noticia.setTitulo(inputTitulo);
+                System.out.print("Digite o conteúdo: ");
+                String inputConteudo = in.nextLine();
+                noticia.setConteudo(inputConteudo);
+                listaNoticias.add(noticia);
+                //List<String> vazio = new ArrayList<>();
+                noticia.setComentarios(new ArrayList<>());
+                editorChefe2.setNoticiasParaRevisar(listaNoticias);
+                System.out.print("Notícia cadastrada com sucesso!");
+
+                break;
+            case 4:
+               // EditorChefe editorChefe2 = new EditorChefe();
+                List<Noticia> listaNoticiasParaRevisar = editorChefe2.getNoticiasParaRevisar();
+                System.out.print("Revisar notícias");
+                int opcaoRevisar = -1;
+                for (int i = 0; i < listaNoticiasParaRevisar.size(); i++) {
+
+                    System.out.println(listaNoticiasParaRevisar.get(i).getTitulo());
+                    System.out.println(listaNoticiasParaRevisar.get(i).getConteudo());
+                    do {
+                        System.out.println("1 - Aprovar");
+                        System.out.println("2 - Reprovar");
+                        System.out.print("Digite um número inteiro: ");
+                        try {
+                            opcaoRevisar = Integer.parseInt(in.nextLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Erro!");
+                        }
+                    } while (opcaoRevisar != 1 && opcaoRevisar != 2);
+
+                    if (opcaoRevisar == 1){
+                        List<Noticia> listaPublicadas = editorChefe2.getNoticiasPublicadas() == null ? new ArrayList<Noticia>() : editorChefe2.getNoticiasPublicadas();
+                        listaPublicadas.add(listaNoticiasParaRevisar.get(i));
+                        editorChefe2.setNoticiasPublicadas(listaPublicadas);
+                        listaNoticiasParaRevisar.remove(i);
+                        editorChefe2.setNoticiasParaRevisar(listaNoticiasParaRevisar);
+                    } else {
+                        listaNoticiasParaRevisar.remove(i);
+                    }
+                }
+
+                break;
         }
   }while (opcaoAvancar != 0);
 }}

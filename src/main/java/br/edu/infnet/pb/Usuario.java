@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 public class Usuario {
 
-
-
     private String nome;
     private String id;
     private String email;
@@ -48,11 +46,20 @@ public class Usuario {
 
     public void gerarId(){
         int idGerado = (int) (Math.ceil(Math.random() * 1000));
-        id = String.valueOf(idGerado);
+        System.out.println(idGerado);
+        //id = String.valueOf(idGerado);
+        id = "251";
     }
     
     public void setPlano(Plano plano) {
     	this.plano = plano;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
