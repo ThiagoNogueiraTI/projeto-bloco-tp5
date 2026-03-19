@@ -1,6 +1,8 @@
 package br.edu.infnet.pb;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,8 @@ public class PbApplication {
         Scanner in = new Scanner(System.in);
         Usuario usuario = new Usuario();
         EditorChefe editorChefe2 = new EditorChefe();
+        Administrador administrador2 = new Administrador();
+        Jornalista jornalista2 = new Jornalista();
 
         // simulando notícia para revisar
         List<Noticia> listaNoticiasParaRevisarTeste = new ArrayList<Noticia>();
@@ -24,6 +28,17 @@ public class PbApplication {
         editorChefe2.setNoticiasParaRevisar(listaNoticiasParaRevisarTeste);
         // fim do teste
 
+        
+        //simulando acessos para liberar
+        List<String> listaAcessosParaLiberarTeste = new ArrayList<String>();
+        Administrador acessoParaLiberarTeste = new Administrador();
+        listaAcessosParaLiberarTeste.add("João - ID 123");
+        listaAcessosParaLiberarTeste.add("Miguel - ID 234");
+        listaAcessosParaLiberarTeste.add("Alberto - ID 345");
+        administrador2.setAcessosParaLiberar(listaAcessosParaLiberarTeste);
+        //fim do teste
+        
+        
         List<Noticia> listaNoticias = new ArrayList<Noticia>();
         int opcaoConta = -1;
         do {
@@ -44,6 +59,11 @@ public class PbApplication {
         } while (opcaoConta != 1 && opcaoConta != 2 && opcaoConta != 0);
         switch (opcaoConta) {
             case 1:
+            	
+                 String[] listaIdJornalista = jornalista2.getIdJornalistas();
+                 String[] listaIdEditorChefe = editorChefe2.getIdEditorChefe();
+                 String[] listaIdAdministrador = administrador2.getIdAdm();
+                 
                     System.out.println("Entrar");
                     System.out.println("----------------");
                     System.out.print("Digite seu email: ");
@@ -51,6 +71,30 @@ public class PbApplication {
                     System.out.println(" ");
                     System.out.print("Digite sua senha: ");
                     String inputSenha = in.nextLine();
+                    usuario.gerarId();
+
+                    for (String s : listaIdJornalista) {
+                        if (s == usuario.getId()) {
+                        	jornalista2 = new Jornalista(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
+                            break;
+                        }
+                    }
+
+                    for (String s : listaIdEditorChefe) {
+                        if (s == usuario.getId()) {
+                        	editorChefe2 = new EditorChefe(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
+                            break;
+                        }
+                    }
+                        
+                    for (String s : listaIdAdministrador) {
+                        if (s == usuario.getId()) {
+                        	administrador2 = new Administrador(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
+                            break;
+                        }
+                    }
+                    
+                    
                     break;
             case 2:
                     System.out.println("Criar conta");
@@ -92,11 +136,16 @@ public class PbApplication {
 
         Jornalista jornalistaPermitir = new Jornalista();
         EditorChefe editorChefePermitir = new EditorChefe();
+        Administrador administradorPermitir = new Administrador();
+
         String[] listaIdJornalista = jornalistaPermitir.getIdJornalistas();
         String[] listaIdEditorChefe = editorChefePermitir.getIdEditorChefe();
-
+        String[] listaIdAdministrador = administradorPermitir.getIdAdm();
+        
         boolean permitirCriarNoticia = false;
         boolean permitirRevisar = false;
+        boolean permitirAcesso = false;
+        
         do {
             System.out.println(" ");
             System.out.println("Digite um número inteiro:");
@@ -115,6 +164,14 @@ public class PbApplication {
                     break;
                 }
             }
+                
+            for (String s : listaIdAdministrador) {
+                if (s == usuario.getId()) {
+                	permitirAcesso = true;
+                    break;
+                }
+            }
+
 
             System.out.println("2 - Listar Notícia(Interagir com Like e Comentário)");
 
@@ -126,7 +183,10 @@ public class PbApplication {
                 System.out.println("4 - Revisar notícias");
             }
 
-
+            if (permitirAcesso){
+                System.out.println("5 - Liberar acesso");
+            }
+            
             System.out.print("Digite o número: ");
             try {
                 opcaoAvancar = Integer.parseInt(in.nextLine());
@@ -326,6 +386,7 @@ public class PbApplication {
                 //List<String> vazio = new ArrayList<>();
                 noticia.setComentarios(new ArrayList<>());
                 editorChefe2.setNoticiasParaRevisar(listaNoticias);
+                jornalista2.setNoticiasProduzidas(listaNoticias);
                 System.out.print("Notícia cadastrada com sucesso!");
 
                 break;
@@ -361,6 +422,38 @@ public class PbApplication {
                 }
 
                 break;
+            case 5:
+            	//Administrador
+                List<String> listaAcessosParaLiberar = administrador2.getAcessosParaLiberar();
+                System.out.println("Liberar acesso");
+                int opcaoLiberarAcesso = -1;
+                for (int i = 0; i < listaAcessosParaLiberar.size(); i++) {
+                    System.out.println(listaAcessosParaLiberar.get(i));
+                    do {
+                        System.out.println("1 - Liberar");
+                        System.out.println("2 - Não Liberar");
+                        System.out.print("Digite um número inteiro: ");
+                        try {
+                        	opcaoLiberarAcesso = Integer.parseInt(in.nextLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Erro!");
+                        }
+                    } while (opcaoLiberarAcesso != 1 && opcaoLiberarAcesso != 2);
+
+                    if (opcaoLiberarAcesso == 1){
+                        List<String> listaLiberada = administrador2.getAcessosLiberados() == null ? new ArrayList<String>() : administrador2.getAcessosLiberados();
+                        listaLiberada.add(listaAcessosParaLiberar.get(i));
+                        administrador2.setAcessosLiberados(listaLiberada);
+                        listaAcessosParaLiberar.remove(i);
+                        administrador2.setAcessosParaLiberar(listaAcessosParaLiberar);
+                        i--;
+                    } else {
+                    	listaAcessosParaLiberar.remove(i);
+                    	i--;
+                    }
+                }
+                 break;
+                
         }
   }while (opcaoAvancar != 0);
 }}

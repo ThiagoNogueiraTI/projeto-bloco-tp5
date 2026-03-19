@@ -8,6 +8,13 @@ public class EditorChefe extends Funcionarios{
 	private List<Noticia> noticiasPublicadas;
     private String[] idEditorChefe = {"151", "774", "937"};
 
+    public EditorChefe(String nome, String id, String email, String senha) {
+		super(nome, id, email, senha);
+	}
+	
+	public EditorChefe() {
+	}
+    
     public void publicar(){
 
     }

@@ -12,8 +12,7 @@ public class Noticia {
 	private int curtidas = 0;
 	private enum Tipo{Gratis, Paga};
 	private Tipo tipo;
-	private String[] categorias;
-	//private String[] comentarios;
+	//private String[] categorias;
 	private List<String> comentarios;
 
 	public List<String> getComentarios() {
