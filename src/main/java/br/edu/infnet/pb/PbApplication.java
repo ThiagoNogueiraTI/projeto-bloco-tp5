@@ -91,7 +91,7 @@ public class PbApplication {
                     String inputSenha = in.nextLine();
                     usuario.gerarId();
 
-                    for (String s : listaIdJornalista) {
+                    /*for (String s : listaIdJornalista) {
                         if (s == usuario.getId()) {
                         	jornalista2 = new Jornalista(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
                             break;
@@ -103,14 +103,14 @@ public class PbApplication {
                         	editorChefe2 = new EditorChefe(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
                             break;
                         }
-                    }
+                    }*/
                         
-                    for (String s : listaIdAdministrador) {
+                   /* for (String s : listaIdAdministrador) {
                         if (s == usuario.getId()) {
-                        	administrador2 = new Administrador(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
+                        	//administrador2 = new Administrador(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
                             break;
                         }
-                    }
+                    }*/
                     
                     
                     break;
