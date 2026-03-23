@@ -54,7 +54,6 @@ public class PbApplication {
         noticiaUsuarioTeste2.setComentarios(new ArrayList<>());
         listaNoticiaUsuarioTeste.add(noticiaUsuarioTeste2);
         editorChefe2.setNoticiasPublicadas(listaNoticiaUsuarioTeste);
-
         //fim do teste
         
         List<Noticia> listaNoticias = new ArrayList<Noticia>();
@@ -77,43 +76,19 @@ public class PbApplication {
         } while (opcaoConta != 1 && opcaoConta != 2 && opcaoConta != 0);
         switch (opcaoConta) {
             case 1:
-            	
-                 String[] listaIdJornalista = jornalista2.getIdJornalistas();
-                 String[] listaIdEditorChefe = editorChefe2.getIdEditorChefe();
-                 String[] listaIdAdministrador = administrador2.getIdAdm();
-                 
-                    System.out.println("Entrar");
-                    System.out.println("----------------");
-                    System.out.print("Digite seu email: ");
-                    String inputEmail = in.nextLine();
-                    System.out.println(" ");
-                    System.out.print("Digite sua senha: ");
-                    String inputSenha = in.nextLine();
-                    usuario.gerarId();
-
-                    /*for (String s : listaIdJornalista) {
-                        if (s == usuario.getId()) {
-                        	jornalista2 = new Jornalista(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
-                            break;
-                        }
-                    }
-
-                    for (String s : listaIdEditorChefe) {
-                        if (s == usuario.getId()) {
-                        	editorChefe2 = new EditorChefe(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
-                            break;
-                        }
-                    }*/
-                        
-                   /* for (String s : listaIdAdministrador) {
-                        if (s == usuario.getId()) {
-                        	//administrador2 = new Administrador(usuario.getNome(), usuario.getId(), usuario.getEmail(), usuario.getSenha());
-                            break;
-                        }
-                    }*/
-                    
-                    
-                    break;
+	             String[] listaIdJornalista = jornalista2.getIdJornalistas();
+	             String[] listaIdEditorChefe = editorChefe2.getIdEditorChefe();
+	             String[] listaIdAdministrador = administrador2.getIdAdm();
+                
+                 System.out.println("Entrar");
+                 System.out.println("----------------");
+                 System.out.print("Digite seu email: ");
+                 String inputEmail = in.nextLine();
+                 System.out.println(" ");
+                 System.out.print("Digite sua senha: ");
+                 String inputSenha = in.nextLine();
+                 usuario.gerarId();
+                 break;
             case 2:
                     System.out.println("Criar conta");
                     System.out.println("----------------");
@@ -220,7 +195,6 @@ public class PbApplication {
                 opcaoAvancar = 10;
             }
 
-        //} while (opcaoAvancar < 0 && opcaoAvancar > 4);
         switch (opcaoAvancar) {
             case 1:
                 int opcaoPerfil = -1;
@@ -406,10 +380,8 @@ public class PbApplication {
 					usuario.setNoticiaSalva(listNoticiaSalvaUsuario);
 					break;
 			}
-               break; // ate aqui
+               break;
             case 3:
-                //EditorChefe editorChefe = new EditorChefe();
-
                 Noticia noticia = new Noticia();
                 System.out.println("3 -- Criar Notícia");
                 System.out.print("Digite o título: ");
@@ -419,32 +391,28 @@ public class PbApplication {
                 String inputConteudo = in.nextLine();
                 noticia.setConteudo(inputConteudo);
                 listaNoticias.add(noticia);
-                //List<String> vazio = new ArrayList<>();
                 noticia.setComentarios(new ArrayList<>());
                 editorChefe2.setNoticiasParaRevisar(listaNoticias);
                 jornalista2.setNoticiasProduzidas(listaNoticias);
                 System.out.print("Notícia cadastrada com sucesso!");
-
                 break;
             case 4:
-               // EditorChefe editorChefe2 = new EditorChefe();
                 List<Noticia> listaNoticiasParaRevisar = editorChefe2.getNoticiasParaRevisar();
                 System.out.print("Revisar notícias");
                 int opcaoRevisar = -1;
                 for (int i = 0; i < listaNoticiasParaRevisar.size(); i++) {
-
-                    System.out.println(listaNoticiasParaRevisar.get(i).getTitulo());
-                    System.out.println(listaNoticiasParaRevisar.get(i).getConteudo());
-                    do {
-                        System.out.println("1 - Aprovar");
-                        System.out.println("2 - Reprovar");
-                        System.out.print("Digite um número inteiro: ");
-                        try {
-                            opcaoRevisar = Integer.parseInt(in.nextLine());
-                        } catch (NumberFormatException e) {
-                            System.out.println("Erro!");
-                        }
-                    } while (opcaoRevisar != 1 && opcaoRevisar != 2);
+	                System.out.println(listaNoticiasParaRevisar.get(i).getTitulo());
+	                System.out.println(listaNoticiasParaRevisar.get(i).getConteudo());
+	                do {
+	                    System.out.println("1 - Aprovar");
+	                    System.out.println("2 - Reprovar");
+	                    System.out.print("Digite um número inteiro: ");
+	                    try {
+	                        opcaoRevisar = Integer.parseInt(in.nextLine());
+	                    } catch (NumberFormatException e) {
+	                        System.out.println("Erro!");
+	                    }
+	                } while (opcaoRevisar != 1 && opcaoRevisar != 2);
 
                     if (opcaoRevisar == 1){
                         List<Noticia> listaPublicadas = editorChefe2.getNoticiasPublicadas() == null ? new ArrayList<Noticia>() : editorChefe2.getNoticiasPublicadas();
@@ -459,7 +427,6 @@ public class PbApplication {
 
                 break;
             case 5:
-            	//Administrador
                 List<String> listaAcessosParaLiberar = administrador2.getAcessosParaLiberar();
                 System.out.println("Liberar acesso");
                 int opcaoLiberarAcesso = -1;

@@ -66,8 +66,8 @@ public class Usuario {
     public void gerarId(){
         int idGerado = (int) (Math.ceil(Math.random() * 1000));
         System.out.println(idGerado);
-        //id = String.valueOf(idGerado);
-        id = "251";
+        id = String.valueOf(idGerado);
+        //id = "251";
     }
     
     public void setPlano(Plano plano) {
