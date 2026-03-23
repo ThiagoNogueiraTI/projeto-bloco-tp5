@@ -398,7 +398,7 @@ public class PbApplication {
                 break;
             case 4:
                 List<Noticia> listaNoticiasParaRevisar = editorChefe2.getNoticiasParaRevisar();
-                System.out.print("Revisar notícias");
+                System.out.println("Revisar notícias");
                 int opcaoRevisar = -1;
                 for (int i = 0; i < listaNoticiasParaRevisar.size(); i++) {
 	                System.out.println(listaNoticiasParaRevisar.get(i).getTitulo());
